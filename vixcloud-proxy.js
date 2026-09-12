@@ -6,6 +6,30 @@ puppeteer.use(StealthPlugin());
 
 const app = express();
 
+// Download diretto dell'APK per l'installazione su altri Fire TV Stick
+// (es. tramite l'app "Downloader" di AFTVnews, inserendo questo URL).
+app.get('/download', (req, res) => {
+  res.send(`<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <title>FireTVPlayer - Download</title>
+  <style>
+    body { background:#0e1116; color:#f2f4f7; font-family: -apple-system, sans-serif; text-align:center; padding: 60px 20px; }
+    a.btn { display:inline-block; margin-top:24px; padding:16px 32px; background:#ff8c1a; color:#0e1116; font-weight:bold; font-size:20px; text-decoration:none; border-radius:8px; }
+    p { color:#a9b2c0; font-size:16px; }
+  </style>
+</head>
+<body>
+  <h1>FireTVPlayer</h1>
+  <p>Apri questa pagina dal browser del Fire TV Stick (o dall'app "Downloader")<br>e scarica l'APK per installarlo.</p>
+  <a class="btn" href="/firetvplayer.apk">Scarica APK</a>
+</body>
+</html>`);
+});
+
+app.use(express.static('public'));
+
 const M3U8_REGEX = /\.m3u8(\?|$)/i;
 const PLAYLIST_REGEX = /vixcloud\.co\/playlist\//i;
 
