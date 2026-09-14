@@ -6,7 +6,10 @@ puppeteer.use(StealthPlugin());
 
 const app = express();
 
-const APK_PATH = new URL('./public/firetvplayer.apk', import.meta.url).pathname;
+// L'app e' stata riscritta in React Native (progetto "Watcher"): l'APK
+// servito qui e' quello nuovo. L'endpoint resta /apk, che e' l'indirizzo
+// gia' in uso nei Downloader configurati.
+const APK_PATH = new URL('./public/watcher.apk', import.meta.url).pathname;
 
 // Download diretto dell'APK per l'installazione su altri Fire TV Stick.
 // Endpoint dedicato (invece di affidarsi solo a express.static) cosi'
@@ -15,7 +18,7 @@ const APK_PATH = new URL('./public/firetvplayer.apk', import.meta.url).pathname;
 // l'installazione come fallita se questi header mancano o sono ambigui,
 // anche quando il file scaricato e' in realta' completo.
 app.get('/apk', (req, res) => {
-  res.download(APK_PATH, 'firetvplayer.apk', {
+  res.download(APK_PATH, 'watcher.apk', {
     headers: { 'Content-Type': 'application/vnd.android.package-archive' },
   }, (err) => {
     if (err) console.error(`[apk download] ${err.message}`);
@@ -29,16 +32,16 @@ app.get('/download', (req, res) => {
 <html lang="it">
 <head>
   <meta charset="utf-8">
-  <title>FireTVPlayer - Download</title>
+  <title>Watcher - Download</title>
   <style>
     body { background:#0e1116; color:#f2f4f7; font-family: -apple-system, sans-serif; text-align:center; padding: 60px 20px; }
-    a.btn { display:inline-block; margin-top:24px; padding:16px 32px; background:#ff8c1a; color:#0e1116; font-weight:bold; font-size:20px; text-decoration:none; border-radius:8px; }
+    a.btn { display:inline-block; margin-top:24px; padding:16px 32px; background:#2FD9C5; color:#07090c; font-weight:bold; font-size:20px; text-decoration:none; border-radius:8px; }
     p { color:#a9b2c0; font-size:16px; }
     code { background:#1a1f27; padding:2px 8px; border-radius:4px; }
   </style>
 </head>
 <body>
-  <h1>FireTVPlayer</h1>
+  <h1>Watcher</h1>
   <p>Apri questa pagina dal browser del Fire TV Stick (o dall'app "Downloader")<br>e scarica l'APK per installarlo.</p>
   <a class="btn" href="/apk">Scarica APK</a>
   <p style="margin-top:32px">Nell'app <b>Downloader</b>, inserisci direttamente:<br><code>${req.protocol}://${req.get('host')}/apk</code></p>
